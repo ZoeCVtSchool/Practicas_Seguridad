@@ -1,0 +1,36 @@
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+  
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  body, html { font-family: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial; background: #f7fafc; color: #0f172a; }
+
+  main { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem; }
+  
+  .login-container { width: 100%; max-width: 920px; background: #ffffff; border-radius: 12px; box-shadow: 0 10px 30px rgba(2,6,23,0.06); display: flex; gap: 1.5rem; align-items: center; padding: 1.75rem; }
+  .login-column { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.25rem; padding: 1.25rem 0; }
+  .divider-col { width: 56px; display: flex; align-items: center; justify-content: center; color: #94a3b8; font-weight: 600; font-size: 1.1rem; }
+  .signup-column { flex: 1; display: flex; align-items: center; justify-content: center; padding: 1.25rem 0; }
+
+  .form-group { width: 100%; display: flex; flex-direction: column; gap: .5rem; }
+  label { display: block; font-size: .85rem; color: #64748b; margin-bottom: .4rem; }
+  input[type="text"], input[type="password"] { width: 100%; padding: .65rem .75rem; border: 1px solid #e6eef6; border-radius: 8px; background: #fff; color: #0f172a; font-size: 1rem; outline: none; transition: all .2s; font-family: inherit; }
+  input:focus { box-shadow: 0 6px 18px rgba(11,105,255,0.08); border-color: #c7ddff; }
+
+  .form-title { font-size: 1.4rem; margin: 0 0 .5rem; color: #0f172a; font-weight: 600; }
+  .form-subtitle { margin: 0 0 1rem; color: #475569; font-size: .95rem; }
+  .form-footer { text-align: center; font-size: .9rem; color: #475569; margin-top: .5rem; }
+  .form-footer a { color: #0b69ff; text-decoration: none; font-weight: 600; cursor: pointer; }
+
+  .signup-text { text-align: center; }
+  .signup-text h3 { margin: 0 0 .5rem; color: #0f172a; font-weight: 600; }
+  .signup-text p { margin: 0 0 1rem; color: #64748b; font-size: .95rem; }
+
+  .w-full { width: 100% !important; }
+  p-button.w-full { width: 100%; }
+  p-button.w-full ::ng-deep .p-button { width: 100%; }
+
+  @media (max-width: 720px) { .login-container { flex-direction: column; padding: 1rem; } .divider-col { width: 100%; margin: 1rem 0; } }
+</style>
+
+<router-outlet></router-outlet>
