@@ -25,7 +25,7 @@ import { AuthService } from '../../services/auth.service';
 export class Register {
   registerForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private router: Router, private messageService: MessageService, private authService: AuthService) {
+  constructor(private readonly fb: FormBuilder, private readonly router: Router, private readonly messageService: MessageService, private readonly authService: AuthService) {
     this.registerForm = this.fb.group(
       {
         username: ['', Validators.required],
@@ -61,7 +61,7 @@ export class Register {
           '',
           [
             Validators.required,
-            Validators.pattern(/^[0-9]{10}$/),
+            Validators.pattern(/^\d{10}$/),
           ],
         ],
       },
@@ -115,7 +115,7 @@ export class Register {
   }
 
   private specialCharValidator(): ValidatorFn {
-    const pattern = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+    const pattern = /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>?]/;
 
     return (control: AbstractControl) => {
       if (!control.value) return null;
@@ -150,7 +150,7 @@ export class Register {
     const value = input.value;
 
     // Remover cualquier caracter que no sea número
-    const numericValue = value.replace(/\D/g, '');
+    const numericValue = value.replaceAll(/\D/g, '');
 
     // Limitar a 10 dígitos
     if (numericValue.length > 10) {
@@ -176,7 +176,7 @@ export class Register {
     }
 
     // Solo permitir números
-    if (!/[0-9]/.test(event.key)) {
+    if (!/\d/.test(event.key)) {
       event.preventDefault();
     }
   }

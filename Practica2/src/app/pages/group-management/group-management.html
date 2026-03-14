@@ -1,0 +1,80 @@
+<div class="dashboard-container">
+  <!-- Sidebar -->
+  <div class="sidebar" [class.sidebar-open]="sidebarVisible">
+    <div class="sidebar-header">
+      <h3>ERP Sandra</h3>
+      <button pButton type="button" icon="pi pi-times" class="p-button-text p-button-rounded" (click)="sidebarVisible = false"></button>
+    </div>
+    <p-menu [model]="menuItems" class="sidebar-menu"></p-menu>
+  </div>
+
+  <!-- Overlay for mobile -->
+  <div class="sidebar-overlay" [class.active]="sidebarVisible" (click)="sidebarVisible = false"></div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Header -->
+    <div class="header">
+      <button pButton type="button" icon="pi pi-bars" class="p-button-text menu-toggle" (click)="sidebarVisible = true"></button>
+      <h2>Gestión de Grupos</h2>
+      <div class="header-actions">
+        <button pButton type="button" label="Editar Perfil" icon="pi pi-user-edit" class="p-button-outlined" (click)="editProfile()"></button>
+        <button pButton type="button" label="Cerrar Sesión" icon="pi pi-sign-out" class="p-button-outlined" (click)="logout()"></button>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+      <!-- Groups CRUD -->
+      <p-card class="crud-card">
+        <ng-template pTemplate="header">
+          <div class="card-header">
+            <h3>Grupos</h3>
+            <p-button label="Nuevo Grupo" icon="pi pi-plus" (onClick)="openNewGroup()"></p-button>
+          </div>
+        </ng-template>
+        <p-table [value]="groups" responsiveLayout="scroll">
+          <ng-template pTemplate="header">
+            <tr>
+              <th scope="col">Nombre</th>
+              <th scope="col">Descripción</th>
+              <th scope="col">Usuarios</th>
+              <th scope="col">Acciones</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-group>
+            <tr>
+              <td>{{ group.name }}</td>
+              <td>{{ group.description }}</td>
+              <td>{{ group.users.length }}</td>
+              <td>
+                <p-button icon="pi pi-pencil" (onClick)="editGroup(group)"></p-button>
+                <p-button icon="pi pi-trash" class="p-button-danger" (onClick)="deleteGroup(group)"></p-button>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </p-card>
+    </div>
+  </div>
+</div>
+
+<!-- Group Dialog -->
+<p-dialog [(visible)]="groupDialog" [style]="{width: '450px'}" header="Grupo" modal="true">
+  <form [formGroup]="groupForm">
+    <div class="field">
+      <label for="group-name">Nombre</label>
+      <input pInputText id="group-name" formControlName="name" required>
+    </div>
+    <div class="field">
+      <label for="group-description">Descripción</label>
+      <input pInputText id="group-description" formControlName="description">
+    </div>
+  </form>
+  <ng-template pTemplate="footer">
+    <p-button label="Cancelar" icon="pi pi-times" class="p-button-text" (onClick)="groupDialog = false"></p-button>
+    <p-button label="Guardar" icon="pi pi-check" (onClick)="saveGroup()"></p-button>
+  </ng-template>
+</p-dialog>
+
+<p-toast></p-toast>

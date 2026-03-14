@@ -48,6 +48,10 @@ export class Login {
 
     if (isValid) {
       console.log('Login successful, navigating to landing...');
+      const user = this.authService.getUserByEmail(username);
+      if (user) {
+        this.authService.setCurrentUser(user);
+      }
       this.messageService.add({
         severity: 'success',
         summary: '¡Bienvenido!',

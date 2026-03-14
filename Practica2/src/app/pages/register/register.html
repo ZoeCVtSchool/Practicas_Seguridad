@@ -1,119 +1,126 @@
-<div class="page-wrapper">
-  <div class="login-column">
+<div class="auth-container">
+  <div class="auth-card">
     <p-toast position="top-center"></p-toast>
-    
-    <h2 class="form-title">Registro</h2>
 
-    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" novalidate>
+    <div class="auth-header">
+      <h2 class="auth-title">Create Account</h2>
+      <p class="auth-subtitle">Join us today</p>
+    </div>
 
-      <!-- Usuario -->
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" novalidate class="auth-form">
+      <!-- Username -->
       <div class="form-group">
-        <label>Usuario</label>
-        <input type="text" formControlName="username" placeholder="Juan Perez" />
+        <label for="username" class="form-label">Username</label>
+        <input id="username" type="text" formControlName="username" placeholder="Juan Perez" class="form-input" />
 
         <div class="error" *ngIf="f['username'].invalid && (f['username'].dirty || f['username'].touched)">
-          <small *ngIf="f['username'].errors?.['required']">El usuario es obligatorio.</small>
+          <small *ngIf="f['username'].errors?.['required']">Username is required.</small>
         </div>
       </div>
 
       <!-- Email -->
       <div class="form-group">
-        <label>Email</label>
-        <input type="email" formControlName="email" placeholder="ejemplo@correo.com" />
+        <label for="email" class="form-label">Email</label>
+        <input id="email" type="email" formControlName="email" placeholder="ejemplo@correo.com" class="form-input" />
 
         <div class="error" *ngIf="f['email'].invalid && (f['email'].dirty || f['email'].touched)">
-          <small *ngIf="f['email'].errors?.['required']">El email es obligatorio.</small>
-          <small *ngIf="f['email'].errors?.['email']">Formato de email inválido.</small>
-          <small *ngIf="f['email'].errors?.['pattern']">Debe contener @ y dominio válido.</small>
+          <small *ngIf="f['email'].errors?.['required']">Email is required.</small>
+          <small *ngIf="f['email'].errors?.['email']">Invalid email format.</small>
+          <small *ngIf="f['email'].errors?.['pattern']">Must contain @ and valid domain.</small>
         </div>
       </div>
 
-      <!-- Nombre -->
+      <!-- Full Name -->
       <div class="form-group">
-        <label>Nombre completo</label>
-        <input type="text" formControlName="fullName" placeholder="Juan Pérez" />
+        <label for="fullName" class="form-label">Full Name</label>
+        <input id="fullName" type="text" formControlName="fullName" placeholder="Juan Pérez" class="form-input" />
 
         <div class="error" *ngIf="f['fullName'].invalid && (f['fullName'].dirty || f['fullName'].touched)">
-          <small>El nombre completo es obligatorio.</small>
+          <small>Full name is required.</small>
         </div>
       </div>
 
-      <!-- Dirección -->
+      <!-- Address -->
       <div class="form-group">
-        <label>Dirección</label>
-        <input type="text" formControlName="address" placeholder="Calle, número, ciudad" />
+        <label for="address" class="form-label">Address</label>
+        <input id="address" type="text" formControlName="address" placeholder="Street, number, city" class="form-input" />
 
         <div class="error" *ngIf="f['address'].invalid && (f['address'].dirty || f['address'].touched)">
-          <small>La dirección es obligatoria.</small>
+          <small>Address is required.</small>
         </div>
       </div>
 
-      <!-- Fecha -->
+      <!-- Date of Birth -->
       <div class="form-group">
-        <label>Fecha de nacimiento</label>
-        <input type="date" formControlName="dob" />
+        <label for="dob" class="form-label">Date of Birth</label>
+        <input id="dob" type="date" formControlName="dob" class="form-input" />
 
         <div class="error" *ngIf="f['dob'].invalid && (f['dob'].dirty || f['dob'].touched)">
-          <small *ngIf="f['dob'].errors?.['required']">La fecha es obligatoria.</small>
-          <small *ngIf="f['dob'].errors?.['tooYoung']">Debe ser mayor de 18 años.</small>
+          <small *ngIf="f['dob'].errors?.['required']">Date of birth is required.</small>
+          <small *ngIf="f['dob'].errors?.['tooYoung']">Must be 18 years or older.</small>
         </div>
       </div>
 
-      <!-- Teléfono -->
+      <!-- Phone -->
       <div class="form-group">
-        <label>Teléfono</label>
-      <input
-        type="tel"
-        formControlName="phone"
-        placeholder="1234567890"
-        maxlength="10"
-        inputmode="numeric"
-        pattern="[0-9]*"
-        (input)="onPhoneInput($event)"
-        (keypress)="onPhoneKeyPress($event)"
-      />
+        <label for="phone" class="form-label">Phone</label>
+        <input
+          id="phone"
+          type="tel"
+          formControlName="phone"
+          placeholder="1234567890"
+          maxlength="10"
+          inputmode="numeric"
+          pattern="[0-9]*"
+          (input)="onPhoneInput($event)"
+          (keypress)="onPhoneKeyPress($event)"
+          class="form-input"
+        />
         <div class="error" *ngIf="f['phone'].invalid && (f['phone'].dirty || f['phone'].touched)">
-          <small *ngIf="f['phone'].errors?.['required']">El teléfono es obligatorio.</small>
-          <small *ngIf="f['phone'].errors?.['pattern']">Debe tener exactamente 10 números.</small>
+          <small *ngIf="f['phone'].errors?.['required']">Phone is required.</small>
+          <small *ngIf="f['phone'].errors?.['pattern']">Must be exactly 10 digits.</small>
         </div>
       </div>
 
       <!-- Password -->
       <div class="form-group">
-        <label>Contraseña</label>
-        <input type="password" formControlName="password" placeholder="**********" />
+        <label for="password" class="form-label">Password</label>
+        <input id="password" type="password" formControlName="password" placeholder="**********" class="form-input" />
 
         <div class="error" *ngIf="f['password'].invalid && (f['password'].dirty || f['password'].touched)">
-          <small *ngIf="f['password'].errors?.['required']">La contraseña es obligatoria.</small>
-          <small *ngIf="f['password'].errors?.['minlength']">Debe tener exactamente 10 caracteres.</small>
-          <small *ngIf="f['password'].errors?.['maxlength']">Máximo 10 caracteres.</small>
-          <small *ngIf="f['password'].errors?.['specialChar']">Debe incluir un carácter especial.</small>
+          <small *ngIf="f['password'].errors?.['required']">Password is required.</small>
+          <small *ngIf="f['password'].errors?.['minlength']">Must be exactly 10 characters.</small>
+          <small *ngIf="f['password'].errors?.['maxlength']">Maximum 10 characters.</small>
+          <small *ngIf="f['password'].errors?.['specialChar']">Must include a special character.</small>
         </div>
       </div>
 
-      <!-- Confirm -->
+      <!-- Confirm Password -->
       <div class="form-group">
-        <label>Confirmar contraseña</label>
-        <input type="password" formControlName="confirm" placeholder="**********" />
+        <label for="confirm" class="form-label">Confirm Password</label>
+        <input id="confirm" type="password" formControlName="confirm" placeholder="**********" class="form-input" />
 
         <div class="error"
           *ngIf="(f['confirm'].invalid && (f['confirm'].dirty || f['confirm'].touched))
           || (registerForm.errors?.['mismatch'] && (f['confirm'].dirty || f['confirm'].touched))">
-          
-          <small *ngIf="f['confirm'].errors?.['required']">La confirmación es obligatoria.</small>
-          <small *ngIf="registerForm.errors?.['mismatch']">Las contraseñas no coinciden.</small>
+
+          <small *ngIf="f['confirm'].errors?.['required']">Confirmation is required.</small>
+          <small *ngIf="registerForm.errors?.['mismatch']">Passwords do not match.</small>
         </div>
       </div>
 
       <p-button
-  type="submit"
-  label="Crear cuenta"
-  icon="pi pi-user-plus"
-  class="w-full"
-  [disabled]="registerForm.invalid"
-  [ngClass]="{'btn-valid': registerForm.valid}">
-</p-button>
-
+        type="submit"
+        label="Create Account"
+        icon="pi pi-user-plus"
+        class="auth-button"
+        [disabled]="registerForm.invalid"
+        [ngClass]="{'btn-valid': registerForm.valid}">
+      </p-button>
     </form>
+
+    <div class="auth-footer">
+      <p>Already have an account? <a routerLink="/login" class="auth-link">Sign in</a></p>
+    </div>
   </div>
 </div>

@@ -1,5 +1,217 @@
-<div class="landing-container">
-  <h1>Bienvenido</h1>
-  <p>Esta es la página de destino después del inicio de sesión.</p>
-  <p-button label="Ir a Login" routerLink="/login" icon="pi pi-sign-in"></p-button>
+<div class="dashboard-container">
+  <!-- Sidebar -->
+  <div class="sidebar" [class.sidebar-open]="sidebarVisible">
+    <div class="sidebar-header">
+      <h3>ERP Sandra</h3>
+      <button pButton type="button" icon="pi pi-times" class="p-button-text p-button-rounded" (click)="sidebarVisible = false"></button>
+    </div>
+    <p-menu [model]="menuItems" class="sidebar-menu"></p-menu>
+  </div>
+
+  <!-- Overlay for mobile -->
+  <div class="sidebar-overlay" [class.active]="sidebarVisible" (click)="sidebarVisible = false"></div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Header -->
+    <div class="header">
+      <button pButton type="button" icon="pi pi-bars" class="p-button-text menu-toggle" (click)="sidebarVisible = true"></button>
+      
+      <div class="header-actions">
+        <button pButton type="button" label="Editar Perfil" icon="pi pi-user-edit" class="p-button-outlined" (click)="editProfile()"></button>
+        <button pButton type="button" label="Cerrar Sesión" icon="pi pi-sign-out" class="p-button-outlined" (click)="logout()"></button>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+      <!-- Welcome Card -->
+      <p-card class="welcome-card">
+        <ng-template pTemplate="header">
+          <h3>¡Bienvenido, {{ currentUser?.fullName }}!</h3>
+        </ng-template>
+        <p>Gestiona usuarios, grupos y realiza un seguimiento de tus actividades.</p>
+      </p-card>
+
+      <!-- Tickets Stats Section -->
+      <div class="tickets-stats-section">
+        <h4>Resumen de Tickets</h4>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-label">Total de Tickets</div>
+            <div class="stat-value">{{ getTotalTickets() }}</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Abiertos</div>
+            <div class="stat-value" style="color: #0dcaf0;">{{ getTicketsByStatus('abierto') }}</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">En Proceso</div>
+            <div class="stat-value" style="color: #ffc107;">{{ getTicketsByStatus('en proceso') }}</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Pendientes</div>
+            <div class="stat-value" style="color: #6c757d;">{{ getTicketsByStatus('pendiente') }}</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Resueltos</div>
+            <div class="stat-value" style="color: #198754;">{{ getTicketsByStatus('resuelto') }}</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Cerrados</div>
+            <div class="stat-value" style="color: #dc3545;">{{ getTicketsByStatus('cerrado') }}</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tickets Kanban Board -->
+      <div class="tickets-section">
+        <h4>Tickets</h4>
+        <div class="kanban-board">
+          <div class="kanban-column">
+            <div class="column-header">
+              <h5>Abierto</h5>
+              <span class="badge">{{ getTicketsByStatus('abierto') }}</span>
+            </div>
+            <div class="column-content">
+              <div class="ticket-card" *ngFor="let ticket of getTicketsByStatusArray('abierto')">
+                <div class="ticket-header">
+                  <span class="ticket-id">#{{ ticket.id }}</span>
+                  <p-tag [value]="ticket.status" severity="info" [style]="{'text-transform': 'capitalize'}"></p-tag>
+                </div>
+                <h6 class="ticket-title">{{ ticket.title }}</h6>
+                <p class="ticket-description">{{ ticket.description }}</p>
+                <div class="ticket-footer">
+                  <small>Asignado: {{ ticket.assignedTo }}</small>
+                  <small>{{ ticket.createdDate }}</small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="kanban-column">
+            <div class="column-header">
+              <h5>En Proceso</h5>
+              <span class="badge">{{ getTicketsByStatus('en proceso') }}</span>
+            </div>
+            <div class="column-content">
+              <div class="ticket-card" *ngFor="let ticket of getTicketsByStatusArray('en proceso')">
+                <div class="ticket-header">
+                  <span class="ticket-id">#{{ ticket.id }}</span>
+                  <p-tag [value]="ticket.status" severity="warn" [style]="{'text-transform': 'capitalize'}"></p-tag>
+                </div>
+                <h6 class="ticket-title">{{ ticket.title }}</h6>
+                <p class="ticket-description">{{ ticket.description }}</p>
+                <div class="ticket-footer">
+                  <small>Asignado: {{ ticket.assignedTo }}</small>
+                  <small>{{ ticket.createdDate }}</small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="kanban-column">
+            <div class="column-header">
+              <h5>Pendiente</h5>
+              <span class="badge">{{ getTicketsByStatus('pendiente') }}</span>
+            </div>
+            <div class="column-content">
+              <div class="ticket-card" *ngFor="let ticket of getTicketsByStatusArray('pendiente')">
+                <div class="ticket-header">
+                  <span class="ticket-id">#{{ ticket.id }}</span>
+                  <p-tag [value]="ticket.status" severity="secondary" [style]="{'text-transform': 'capitalize'}"></p-tag>
+                </div>
+                <h6 class="ticket-title">{{ ticket.title }}</h6>
+                <p class="ticket-description">{{ ticket.description }}</p>
+                <div class="ticket-footer">
+                  <small>Asignado: {{ ticket.assignedTo }}</small>
+                  <small>{{ ticket.createdDate }}</small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="kanban-column">
+            <div class="column-header">
+              <h5>Resuelto</h5>
+              <span class="badge">{{ getTicketsByStatus('resuelto') }}</span>
+            </div>
+            <div class="column-content">
+              <div class="ticket-card" *ngFor="let ticket of getTicketsByStatusArray('resuelto')">
+                <div class="ticket-header">
+                  <span class="ticket-id">#{{ ticket.id }}</span>
+                  <p-tag [value]="ticket.status" severity="success" [style]="{'text-transform': 'capitalize'}"></p-tag>
+                </div>
+                <h6 class="ticket-title">{{ ticket.title }}</h6>
+                <p class="ticket-description">{{ ticket.description }}</p>
+                <div class="ticket-footer">
+                  <small>Asignado: {{ ticket.assignedTo }}</small>
+                  <small>{{ ticket.createdDate }}</small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="kanban-column">
+            <div class="column-header">
+              <h5>Cerrado</h5>
+              <span class="badge">{{ getTicketsByStatus('cerrado') }}</span>
+            </div>
+            <div class="column-content">
+              <div class="ticket-card" *ngFor="let ticket of getTicketsByStatusArray('cerrado')">
+                <div class="ticket-header">
+                  <span class="ticket-id">#{{ ticket.id }}</span>
+                  <p-tag [value]="ticket.status" severity="danger" [style]="{'text-transform': 'capitalize'}"></p-tag>
+                </div>
+                <h6 class="ticket-title">{{ ticket.title }}</h6>
+                <p class="ticket-description">{{ ticket.description }}</p>
+                <div class="ticket-footer">
+                  <small>Asignado: {{ ticket.assignedTo }}</small>
+                  <small>{{ ticket.createdDate }}</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
+
+
+<!-- Profile Dialog -->
+<p-dialog [(visible)]="profileDialog" [style]="{width: '450px'}" header="Editar Perfil" modal="true">
+  <form [formGroup]="profileForm">
+    <div class="field">
+      <label for="profile-username">Nombre de Usuario</label>
+      <input pInputText id="profile-username" formControlName="username" required />
+    </div>
+    <div class="field">
+      <label for="profile-email">Correo Electrónico</label>
+      <input pInputText id="profile-email" formControlName="email" required />
+    </div>
+    <div class="field">
+      <label for="profile-fullName">Nombre Completo</label>
+      <input pInputText id="profile-fullName" formControlName="fullName" required />
+    </div>
+    <div class="field">
+      <label for="profile-address">Dirección</label>
+      <input pInputText id="profile-address" formControlName="address" />
+    </div>
+    <div class="field">
+      <label for="profile-dob">Fecha de Nacimiento</label>
+      <input pInputText id="profile-dob" formControlName="dob" />
+    </div>
+    <div class="field">
+      <label for="profile-phone">Teléfono</label>
+      <input pInputText id="profile-phone" formControlName="phone" />
+    </div>
+    <div class="field">
+      <label for="profile-password">Contraseña</label>
+      <input pInputText id="profile-password" type="password" formControlName="password" required />
+    </div>
+  </form>
+  <ng-template pTemplate="footer">
+    <p-button label="Cancelar" icon="pi pi-times" class="p-button-text" (onClick)="profileDialog = false"></p-button>
+    <p-button label="Guardar" icon="pi pi-check" (onClick)="saveProfile()"></p-button>
+  </ng-template>
+</p-dialog>
+
+<p-toast></p-toast>
